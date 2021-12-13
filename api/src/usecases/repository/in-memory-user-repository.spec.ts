@@ -20,4 +20,16 @@ describe('InMemoryUserRepository', () => {
     const user = await userRepository.findByEmail(email)
     expect(user.name).toBe(userName)
   })
+
+  test('should return all users in the repository', async () => {
+    const usersData: UserData[] = [
+      { name: name.findName(), email: internet.email() },
+      { name: name.findName(), email: internet.email() }
+    ]
+    const userRepository: UserRepository = new InMemoryUserRepository(usersData)
+    const users = await userRepository.findAll()
+    expect(users.length).toBe(2)
+    expect(users[0]).toEqual(usersData[0])
+    expect(users[1]).toEqual(usersData[1])
+  })
 })
